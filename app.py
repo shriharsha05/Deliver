@@ -26,7 +26,7 @@ def index():
   elif 'logged_in' in session:
     return redirect("/vendor")
   else:
-    return redirect("/")
+    return redirect("/login")
 
 
 @app.route('/login', methods=['POST', 'GET'])

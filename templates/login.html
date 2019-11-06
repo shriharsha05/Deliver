@@ -20,7 +20,7 @@
           <img src="static/images/logo_96.png" alt="Logo" />
         </div>
         <div class="login-screen-title">Deliver</div>
-        <form action="/login" method="POST">
+        <form action="/login" method="POST" id="form1">
           <div class="list">
             <ul>
               <li class="item-content item-input">
@@ -43,7 +43,7 @@
           </div>
           <div class="list">
             <ul>
-              <li><button type="submit" class="item-link list-button">Sign In</button></li>
+              <li><a type="submit" class="item-link list-button" onclick="document.getElementById('form1').submit();">Sign In</a></li>
             </ul>
             <div class="block-footer">
               <p><a class="link external" href="/signup">Dont have a account?</a></p>
