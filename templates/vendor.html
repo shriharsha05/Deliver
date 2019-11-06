@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body_content %}
+
+<div class="view view-main view-init">
+  <div class="page">
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="left"></div>
+        <div class="title">Hi username</div>
+        <div class="right">
+          <button class="col button color-orange padding-right" ><a href="/logout" class= "external">Logout</a></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+        <div class="list inset">
+          <ul>
+            <li>
+              <a href="/unsubscribers" class="external item-link list-button text-align-center text-color-orange">View Unsubscribe Messages</a>
+            </li>
+            <li>
+              <a href="/complaints" class="external item-link list-button text-align-center text-color-orange">View Complaints</a>
+            </li>
+            <li>
+              <a href="/info" class="external item-link list-button text-align-center text-color-orange">View Delivery Persons</a>
+            </li>
+            <li>
+              <a href="/add" class="external item-link list-button text-align-center text-color-orange">Add Delivery Person</a>
+            </li>
+          </ul>
+        </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

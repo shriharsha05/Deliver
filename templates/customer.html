@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body_content %}
+
+<div class="view view-main view-init">
+  <div class="page">
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="left"></div>
+        <div class="title">Hi {{ username }}!</div>
+        <div class="right">
+          <button class="col button color-orange padding-right" ><a href="/logout" class= "external">Logout</a></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content">
+      
+      <div class="card">
+        <div class="card-header justify-content-center">Unsubscribe TOI</div>
+        <div class="card-content card-content-padding">
+          <div class="list no-hairlines-md">
+            <ul>
+              <li>
+                <div class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-input-wrap">
+                      <input type="text" placeholder="From" readonly="readonly" id="from-date" />
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-input-wrap">
+                      <input type="text" placeholder="To" readonly="readonly" id="to-date" />
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-input-wrap">
+                      <button class="col button button-fill open-toast-bottom" onclick="Unsubscribe()">Unsubscribe</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complaint -->
+      <div class="card">
+        <div class="card-header justify-content-center">Register a Complaint</div>
+        <div class="card-content card-content-padding">
+          <div class="list no-hairlines-md">
+            <ul>
+              <li>
+                <div class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-input-wrap">
+                      <input type="text" placeholder="Select Date" readonly="readonly" id="complain-date" />
+                      <span class="input-clear-button"></span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-input-wrap">
+                      <button class="col button button-fill open-toast-bottom" onclick="Complain()">I did not receive my TOI</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+var calendarModal1 = app.calendar.create({
+
+    inputEl: '#from-date',
+    closeOnSelect:true,
+    openIn: 'customModal',
+    header: true,
+    footer: true,
+    animate : true,
+    dateFormat: 'dd-mm-yyyy',
+    convertToPopover : true,
+  });
+  
+var calendarModal2 = app.calendar.create({
+
+    inputEl: '#to-date',
+    closeOnSelect:true,
+    openIn: 'customModal',
+    header: true,
+    footer: true,
+    animate : true,
+    dateFormat: 'dd-mm-yyyy',
+    convertToPopover : true,
+    });
+
+var calendarModal3 = app.calendar.create({
+
+    inputEl: '#complain-date',
+    closeOnSelect: true,
+    openIn: 'customModal',
+    header: true,
+    footer: true,
+    animate: true,
+    dateFormat: 'dd-mm-yyyy',
+    convertToPopover: true,
+  });
+
+function Unsubscribe(){
+
+    
+}
+
+
+function Complain(){
+
+}
+
+var $$ = Dom7;
+
+// Create bottom toast
+var toastBottom = app.toast.create({
+  text: 'Success!',
+  closeTimeout: 3000,
+});
+
+$$('.open-toast-bottom').on('click', function () {
+  toastBottom.open();
+});
+
+</script>
+{% endblock %}
