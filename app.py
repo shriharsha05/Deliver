@@ -5,32 +5,83 @@ Developer : Shriharsha M [shriharsha05@computer.org]
 
 from flask import Flask, render_template, url_for, redirect, request, session, flash
 from gevent.pywsgi import WSGIServer
-
+from pymongo import MongoClient
+import hashlib
+import os
 
 #flask config
 app = Flask(__name__)
-app.secret_key = 'SECRET_KEY'
+app.secret_key = os.environ['SECRET']
 
+#db config
+db_username = os.environ['DB_USER']
+db_password = os.environ['DB_PASSWD']
+client = MongoClient("mongodb+srv://"+db_username+":"+db_password+"/test?retryWrites=true&w=majority")
+db = client["Deliver"]
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-  return render_template('index.html')
+  if 'logged_in' in session and 'customer_logged_in' in session:
+    return render_template('customer.html', username=session['user'])
+  elif 'logged_in' in session:
+    return redirect("/vendor")
+  else:
+    return redirect("/")
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-  return render_template('login.html')
+    if 'logged_in' in session and 'customer_logged_in':
+        return redirect("/")
+    elif 'logged_in' in session:
+        return redirect("/vendor")
+    if request.method=="GET":
+        return render_template("login.html")
+    else:
+      try:
+        data = db["users"].find({"username" : request.form["username"]})
+        pswd_salt = os.environ['SALT']
+        pswd = request.form["password"]
+        digest = hashlib.sha512(str(pswd_salt+pswd+pswd_salt).encode('utf-8', 'strict'))
+        if data[0]['password'] == digest.hexdigest():
+            session['logged_in'] = True
+            session['customer_logged_in'] = True
+            session['user'] = request.form["username"]
+            return redirect("/login")
+        else:
+            return render_template("login.html",error="Wrong Password")
+      except:
+        flash("Data not found")
+        return redirect("/login")
 
 
 @app.route('/logout', methods=['POST', 'GET'])
 def logout():
-  #session.clear()
+  session.clear()
   return redirect("/login")
 
 
-@app.route('/customer', methods=['POST', 'GET'])
-def customer():
-  return render_template('customer.html')
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
+  if request.method == "GET":
+    return render_template("signup.html")
+  else:
+
+    pswd_salt = os.environ['SALT']
+    pswd = request.form["password"]
+    digest = hashlib.sha512(str(pswd_salt+pswd+pswd_salt).encode('utf-8', 'strict'))
+    user = {"username" : request.form["username"],
+            "password": digest.hexdigest(),
+            "email": request.form["email"],
+            "phone_no" : request.form["phone_no"],
+            "news_paper": request.form["news_paper"],
+            "area": request.form["area"],
+            "vendor": request.form["vendor"],
+            "city" : request.form["city"],
+            "address" : request.form["address"] 
+    }
+    db["users"].insert(user)
+    return redirect("/login")
 
 
 @app.route('/vendor', methods=['POST', 'GET'])

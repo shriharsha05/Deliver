@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body_content %}
+
+<div class="view view-main view-init">
+  <div class="page">
+
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/login" class="link icon-only external">
+            <i class="icon icon-back"></i>
+          </a>
+        </div>
+        <div class="title">Sign Up!</div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+              <div class="block text-align-center">
+                <img src="static/images/logo_96.png" alt="Logo" />
+              </div>
+              <h3 class="text-align-center">Deliver</h3>
+              
+              <form action = "/signup" method = "POST">
+                <div class="list no-hairlines-md">
+                  <ul>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Username</div>
+                        <div class="item-input-wrap">
+                          <input type="text" name="username" placeholder="Your username">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Email Id</div>
+                        <div class="item-input-wrap">
+                          <input type="email" name="email" placeholder="Your email id">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Phone No</div>
+                        <div class="item-input-wrap">
+                          <input type="tel" name="phone_no" placeholder="Your phone number">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Password</div>
+                        <div class="item-input-wrap">
+                          <input type="password" name="password" placeholder="Your password">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Re-enter Password</div>
+                        <div class="item-input-wrap">
+                          <input type="password" name="re-password" placeholder="Re-enter your password">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">City</div>
+                        <div class="item-input-wrap">
+                          <input type="text" name="city" placeholder="Select your city">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Area</div>
+                        <div class="item-input-wrap">
+                          <input type="text" name="area" placeholder="Select your area">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Address</div>
+                        <div class="item-input-wrap">
+                          <textarea placeholder="Your address" name="address"></textarea>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">News Paper</div>
+                        <div class="item-input-wrap">
+                          <input type="text" placeholder="Select your News Paper" name="news_paper"></input>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Vendor</div>
+                        <div class="item-input-wrap">
+                          <input type="text" placeholder="Select your vendor" name="vendor"></input>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <button class="col button button-color-orange" type="submit">Sign Up</button>
+                    </li>
+                  </ul>
+                </div>
+              </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

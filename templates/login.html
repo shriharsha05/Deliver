@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body_content %}
+<div class="page-content">
+  <div class="block">
+    <p>
+      <!-- Open in login screen-modal that is already in DOM-->
+      <a href="#" id="modal" class="button login-screen-open" data-login-screen=".login-screen" >Goto Login</a>
+    </p>
+  </div>
+</div>
+
+<div class="login-screen">
+  <div class="view">
+    <div class="page">
+      <div class="page-content login-screen-content">
+        <div class="block login-screen-title">
+          <img src="static/images/logo_96.png" alt="Logo" />
+        </div>
+        <div class="login-screen-title">Deliver</div>
+        <form action="/login" method="POST">
+          <div class="list">
+            <ul>
+              <li class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Username</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="username" placeholder="Your username">
+                  </div>
+                </div>
+              </li>
+              <li class="item-content item-input">
+                <div class="item-inner">
+                  <div class="item-title item-label">Password</div>
+                  <div class="item-input-wrap">
+                    <input type="password" name="password" placeholder="Your password">
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="list">
+            <ul>
+              <li><button type="submit" class="item-link list-button">Sign In</button></li>
+            </ul>
+            <div class="block-footer">
+              <p><a class="link external" href="/signup">Dont have a account?</a></p>
+            </div>
+            <div class="block-footer">
+              <p><a class="link" href="#">Forgot Password?</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+  var $$ = Dom7;
+  document.getElementById("modal").click();
+  var app = new Framework7({});
+
+  // Login Screen-Modal DOM events
+  $$('.login-screen').on('loginscreen:open', function (e) {
+    console.log('Login screen open')
+  });
+  $$('.login-screen').on('loginscreen:opened', function (e) {
+    console.log('Login screen opened')
+  });
+
+</script>
+{% endblock %}
