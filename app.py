@@ -155,7 +155,8 @@ def complaints():
 def info():
   if 'vendor_logged_in' not in session:
         return redirect("/")
-  return render_template('delivery_person_details.html')
+  data = db["workers"].find().sort([('$natural', -1)])
+  return render_template('delivery_person_details.html', data=data)
 
 
 def addWorker(worker):

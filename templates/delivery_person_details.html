@@ -21,7 +21,32 @@
 
     <div class="page-content">
 
-      
+      <div class="data-table">
+        <table>
+          <thead>
+            <tr>
+              <th class="label-cell">Name</th>
+              <th class="numeric-cell">Phone No</th>
+              <th class="medium-only">Area</th>
+              <th class="medium-only">DOJ</th>
+              <th class="medium-only">Address</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for item in data %}
+            <tr>
+              <th class="label-cell">{{ item['name'] }}</th>
+              <th class="numeric-cell">{{ item['phone_no'] }}</th>
+              <th class="medium-only">{{ item['area'] }}</th>
+              <th class="medium-only">{{ item['doj'] }}</th>
+              <th class="medium-only">{{ item['address'] }}</th>
+            </tr>
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
 
     </div>
 
