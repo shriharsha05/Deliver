@@ -105,6 +105,7 @@
 <script type="text/javascript">
 
 var $$ = Dom7;
+var today = new Date();
 
 var calendarModal1 = app.calendar.create({
 
@@ -115,9 +116,13 @@ var calendarModal1 = app.calendar.create({
     footer: true,
     animate : true,
     dateFormat: 'dd-mm-yyyy',
+    disabled: {
+    from: new Date(1, 1, 1970),
+    to: today
+    },
     convertToPopover : true,
   });
-  
+
 var calendarModal2 = app.calendar.create({
 
     inputEl: '#to-date',
@@ -127,6 +132,10 @@ var calendarModal2 = app.calendar.create({
     footer: true,
     animate : true,
     dateFormat: 'dd-mm-yyyy',
+    disabled: {
+    from: new Date(1,1,1970),
+    to: today
+    },
     convertToPopover : true,
     });
 
@@ -139,6 +148,9 @@ var calendarModal3 = app.calendar.create({
     footer: true,
     animate: true,
     dateFormat: 'dd-mm-yyyy',
+    disabled: {
+      from: today
+    },
     convertToPopover: true,
   });
 
