@@ -150,7 +150,10 @@ function Unsubscribe(){
 
   var from_date = document.getElementById("from-date").value;
   var to_date = document.getElementById("to-date").value;
-
+    if(from_date=='' || to_date==''){
+      app.dialog.alert("Please select dates!");
+      return
+    }
     app.dialog.confirm("Are you sure, you want to unsubscribe "+"{{data['news_paper']}}"+" from "+from_date+" to "+to_date+"?", function () {
       
       var xhttp = new XMLHttpRequest();
@@ -159,8 +162,8 @@ function Unsubscribe(){
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           if (this.responseText === "1") {
             app.dialog.alert("Unsubscribed!");
-            document.getElementById('from_date').value = '';
-            document.getElementById('to_date').value = '';
+            document.getElementById('from-date').value = '';
+            document.getElementById('to-date').value = '';
           } else {
             app.dialog.alert("OOPS..Something Went Wrong");
           }
@@ -180,6 +183,10 @@ function Complain(){
 
   var er_date = document.getElementById("er_date").value;
 
+  if (er_date == '') {
+    app.dialog.alert("Please select a date!");
+    return
+  }
   app.dialog.confirm("{{data['username']}}"+" Are you sure, you did not receive " + "{{data['news_paper']}}" + " on " + er_date + "?", function () {
 
     var xhttp = new XMLHttpRequest();
