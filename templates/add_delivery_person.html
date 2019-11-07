@@ -20,7 +20,76 @@
 
     <div class="page-content">
 
-      
+      <div class="list no-hairlines-md">
+        <ul>
+          <li class="item-content item-input item-input-outline">
+            <div class="item-media">
+              <i class="icons f7-icons size-28">person_crop_circle</i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title item-floating-label">Full Name</div>
+              <div class="item-input-wrap">
+                <input type="text" id="name" placeholder="Worker name">
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <li class="item-content item-input item-input-outline">
+            <div class="item-media">
+              <i class="icons f7-icons size-28">phone_fill</i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title item-floating-label">Phone</div>
+              <div class="item-input-wrap">
+                <input type="tel" id="phone_no" placeholder="Worker phone number">
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <li class="item-content item-input item-input-outline">
+            <div class="item-media">
+              <i class="icons f7-icons size-28">map_pin_ellipse</i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title item-floating-label">Address</div>
+              <div class="item-input-wrap">
+                <textarea id="address" class="resizable" placeholder="Worker Address"></textarea>
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <li class="item-content item-input item-input-outline">
+            <div class="item-media">
+              <i class="icons f7-icons size-28">map_fill</i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title item-floating-label">Assigned Area</div>
+              <div class="item-input-wrap">
+                <input type="text" id="area" placeholder="Assigned Area">
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <li class="item-content item-input item-input-outline">
+            <div class="item-media">
+              <i class="icons f7-icons size-28">calendar</i>
+            </div>
+            <div class="item-inner">
+              <div class="item-title item-floating-label">Joining Date</div>
+              <div class="item-input-wrap">
+                <input type="text" placeholder="Select Date" readonly="readonly" id="join-date" />
+                <span class="input-clear-button"></span>
+              </div>
+            </div>
+          </li>
+          <li class="padding">
+            <p class="row">
+              <button class="col button button-fill external" onclick="addPerson()">Add</button>
+              <button class="col button button-fill" onclick="goback()">Cancel</button>
+            </p>
+          </li>
+        </ul>
+      </div>
 
     </div>
 
@@ -31,6 +100,61 @@
 
 {% block scripts %}
 <script type="text/javascript">
+  var $$ = Dom7;
 
+  var calendarModal1 = app.calendar.create({
+
+    inputEl: '#join-date',
+    closeOnSelect: true,
+    openIn: 'customModal',
+    header: true,
+    footer: true,
+    animate: true,
+    dateFormat: 'dd-mm-yyyy',
+    convertToPopover: true,
+  });
+
+  function addPerson() {
+    if (!navigator.onLine) {
+      app.dialog.alert("Please check your internet connection!");
+      return;
+    }
+
+    if(document.querySelector("#name").value =='' || document.querySelector("#address").value == '' || document.querySelector("#area").value == '' || document.querySelector("#phone_no").value == '' || document.querySelector("#join-date").value == '' ){
+      app.dialog.alert("Please fill all the details!");
+      return;
+    }
+
+    var worker = {
+      "fname": document.querySelector("#name").value,
+      "address": document.querySelector("#phone_no").value,
+      "phone_no": document.querySelector("#address").value,
+      "area": document.querySelector("#area").value,
+      "doj": document.querySelector("#join-date").value
+    };
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/add", true);
+    xhttp.onreadystatechange = function () { // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        if (this.responseText === "1") {
+          app.dialog.alert("Worker details added!");
+          document.querySelector("#name").value = '';
+          document.querySelector("#phone_no").value = '';
+          document.querySelector("#address").value = '';
+          document.querySelector("#area").value = '';
+          document.querySelector("#join-date").value = '';
+        } else {
+          app.dialog.alert("Something Went Wrong\n");
+        }
+      }
+    }
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send("worker=" + JSON.stringify(worker));
+  }
+
+  function goback() {
+    window.location = "/vendor";
+  }
 </script>
 {% endblock %}
