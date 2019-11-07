@@ -141,7 +141,8 @@ def vendor():
 def unsubscribers():
   if 'vendor_logged_in' not in session:
         return redirect("/")
-  return render_template('unsubscribers.html')
+  data = db["unsubscribes"].find().sort([('$natural', -1)])
+  return render_template('unsubscribers.html', data=data)
 
 
 @app.route('/complaints', methods=['POST', 'GET'])

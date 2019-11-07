@@ -8,25 +8,39 @@
   <div class="page">
 
     <div class="navbar">
-      <div class="navbar-inner">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
         <div class="left">
           <a href="/vendor" class="link icon-only external">
             <i class="icon icon-back"></i>
           </a>
         </div>
         <div class="title">Unsubscribers</div>
-        <div class="right"></div>
       </div>
     </div>
 
     <div class="page-content">
 
+      {% for item in data %}
       <div class="card">
-        <div class="card-header justify-content-center">Username</div>
+        <div class="card-header">From {{item['username']}} on {{item['req_date']}}</div>
         <div class="card-content card-content-padding">
-          from date, to date, address, area
+          <div class="list no-hairlines-md padding">
+            <ul>
+              <li>I want to unsubscribe '{{item['news_paper']}}' from {{item['from_date']}} to {{item['to_date']}}</li>
+            </ul>
+            <div class="block padding">
+              <p class="segmented segmented-raised">
+                <button onclick="call(this.id)" id="{{item['phone_no']}}" class="col button button-round button-outline button-small button-fill">
+                  Call
+                </button>
+                <button class="col button button-round button-outline button-small button-fill">Resolved</button>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
+      {% endfor %}
 
     </div>
 
@@ -34,6 +48,12 @@
 </div>
 
 {% endblock %}
-
 {% block scripts %}
+<script type="text/javascript">
+  function call(phone_no) {
+    var link = document.createElement("A");
+    link.setAttribute('href', "tel:"+phone_no);
+    link.click();
+  };
+</script>
 {% endblock %}
