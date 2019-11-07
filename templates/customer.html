@@ -72,7 +72,7 @@
                 <div class="item-content item-input">
                   <div class="item-inner">
                     <div class="item-input-wrap">
-                      <input type="text" placeholder="Select Date" readonly="readonly" id="complain-date" />
+                      <input type="text" placeholder="Select Date" readonly="readonly" id="er_date" />
                       <span class="input-clear-button"></span>
                     </div>
                   </div>
@@ -84,7 +84,7 @@
                 <div class="item-content item-input">
                   <div class="item-inner">
                     <div class="item-input-wrap">
-                      <button class="col button button-fill open-toast-bottom" onclick="Complain()">I did not receive my TOI</button>
+                      <button class="col button button-fill open-toast-bottom" onclick="Complain()">I did not receive my {{data['news_paper']}}</button>
                     </div>
                   </div>
                 </div>
@@ -132,7 +132,7 @@ var calendarModal2 = app.calendar.create({
 
 var calendarModal3 = app.calendar.create({
 
-    inputEl: '#complain-date',
+    inputEl: '#er_date',
     closeOnSelect: true,
     openIn: 'customModal',
     header: true,
@@ -159,7 +159,8 @@ function Unsubscribe(){
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           if (this.responseText === "1") {
             app.dialog.alert("Unsubscribed!");
-            window.location = "/customer";
+            document.getElementById('from_date').value = '';
+            document.getElementById('to_date').value = '';
           } else {
             app.dialog.alert("OOPS..Something Went Wrong");
           }
@@ -172,7 +173,30 @@ function Unsubscribe(){
 
 
 function Complain(){
+  if (!navigator.onLine) {
+    app.dialog.alert("Please check your internet connection!");
+    return;
+  }
 
+  var er_date = document.getElementById("er_date").value;
+
+  app.dialog.confirm("{{data['username']}}"+" Are you sure, you did not receive " + "{{data['news_paper']}}" + " on " + er_date + "?", function () {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/customer", true);
+    xhttp.onreadystatechange = function () { // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        if (this.responseText === "1") {
+          app.dialog.alert("We are extremely sorry! Issue will be resolved. Wont happen again :)");
+          document.getElementById('er_date').value ='';
+        } else {
+          app.dialog.alert("OOPS..Something Went Wrong!");
+        }
+      }
+    }
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send("er_date="+ er_date);
+  });
 }
 
 </script>

@@ -109,10 +109,25 @@ def customer():
               "req_date" :datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
               }
               #insert unsubscription record
-              db["unsubscribe"].insert(unsubscribe)
+              db["unsubscribes"].insert(unsubscribe)
               #success
               return "1"
         except:
+              try:
+                    complaint = {"username": data[0]['username'],
+                    "er_date": request.form['er_date'],
+                    "news_paper": data[0]['news_paper'],
+                    "area": data[0]['area'],
+                    "phone_no": data[0]['phone_no'],
+                    "resolved" : "0",
+                    "complained_date" :datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+                    }
+                    #insert unsubscription record
+                    db["complaints"].insert(complaint)
+                    #success
+                    return "1"
+              except:
+                    return "2"
               return "2"
 
 @app.route('/vendor', methods=['POST', 'GET'])
