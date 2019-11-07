@@ -11,8 +11,13 @@
       <div class="navbar-inner">
         <div class="left"></div>
         <div class="title">Hi {{ data['username'] }}!</div>
-        <div class="right">
-          <button class="col button color-orange padding-right" ><a href="/logout" class= "external">Logout</a></button>
+        <div class="right padding">
+          <!--<button class="col button button-small button-outline color-orange" ><a href="/logout" class= "external">Logout</a></button>-->
+          <button class="col button button-small color-orange">
+            <a href="/logout" class="external">
+              <i class="icons f7-icons size-14">square_arrow_left</i>
+            </a>
+          </button>
         </div>
       </div>
     </div>
@@ -52,7 +57,12 @@
                 <div class="item-content item-input">
                   <div class="item-inner">
                     <div class="item-input-wrap">
-                      <button class="col button button-fill open-toast-bottom" onclick="Unsubscribe()">Unsubscribe</button>
+                      <div class="row padding">
+                        <div class="col-25"></div>
+                        <div class="col-50">
+                          <button class="col button button-fill open-toast-bottom" onclick="Unsubscribe()">Unsubscribe</button>
+                        </div>
+                        <div class="col-25"></div>
                     </div>
                   </div>
                 </div>
@@ -64,7 +74,7 @@
 
       <!-- Complaint -->
       <div class="card">
-        <div class="card-header justify-content-center">Register a Complaint</div>
+        <div class="card-header justify-content-center">Did not receive {{ data['news_paper'] }} ?</div>
         <div class="card-content card-content-padding">
           <div class="list no-hairlines-md">
             <ul>
@@ -80,12 +90,17 @@
               </li>
             </ul>
             <ul>
-              <li>
+              <li class="inset">
                 <div class="item-content item-input">
                   <div class="item-inner">
                     <div class="item-input-wrap">
-                      <button class="col button button-fill open-toast-bottom" onclick="Complain()">I did not receive my {{data['news_paper']}}</button>
-                    </div>
+                      <div class="row padding">
+                        <div class="col-25"></div>
+                        <div class="col-50">
+                          <button class="col button button-fill open-toast-bottom" onclick="Complain()">Complain</button>
+                        </div>
+                        <div class="col-25"></div>
+                      </div>
                   </div>
                 </div>
               </li>
