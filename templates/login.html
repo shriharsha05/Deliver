@@ -16,6 +16,11 @@
   <div class="view">
     <div class="page">
       <div class="page-content login-screen-content">
+        {% if error %}
+          <script type="text/javascript">
+              alert("Error: "+"{{error}}");
+          </script>
+        {% endif %}
         <div class="block login-screen-title">
           <img src="static/images/logo_96.png" alt="Logo" />
         </div>
@@ -46,7 +51,7 @@
               <li><a type="submit" class="item-link list-button" onclick="document.getElementById('form1').submit();">Sign In</a></li>
             </ul>
             <div class="block-footer">
-              <p><a class="link external" href="/signup">Dont have a account?</a></p>
+              <p><a class="link external" href="/signup">Dont have an account?</a></p>
             </div>
             <div class="block-footer">
               <p><a class="link" href="#">Forgot Password?</a></p>
@@ -74,6 +79,5 @@
   $$('.login-screen').on('loginscreen:opened', function (e) {
     console.log('Login screen opened')
   });
-
 </script>
 {% endblock %}

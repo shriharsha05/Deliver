@@ -3,7 +3,7 @@ Deliver App
 Developer : Shriharsha M [shriharsha05@computer.org]
 """
 
-from flask import Flask, render_template, url_for, redirect, request, session, flash
+from flask import Flask, render_template, url_for, redirect, request, session
 from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient
 import hashlib
@@ -21,9 +21,9 @@ db = client["Deliver"]
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-  if 'logged_in' in session and 'customer_logged_in' in session:
-    return render_template('customer.html', username=session['user'])
-  elif 'logged_in' in session:
+  if 'customer_logged_in' in session:
+    return redirect("/customer")
+  elif 'vendor_logged_in' in session:
     return redirect("/vendor")
   else:
     return redirect("/login")
@@ -31,14 +31,18 @@ def index():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if 'logged_in' in session and 'customer_logged_in':
+    if 'vendor_logged_in' in session or 'customer_logged_in' in session:
         return redirect("/")
-    elif 'logged_in' in session:
-        return redirect("/vendor")
     if request.method=="GET":
         return render_template("login.html")
     else:
+      error = None
       try:
+        #vendor demo login
+        if request.form["username"] == "vendor" and request.form["password"] == os.environ['VENDOR']:
+          session['vendor_logged_in'] = True
+          return redirect("/")
+        #user authentication
         data = db["users"].find({"username" : request.form["username"]})
         pswd_salt = os.environ['SALT']
         pswd = request.form["password"]
@@ -47,12 +51,13 @@ def login():
             session['logged_in'] = True
             session['customer_logged_in'] = True
             session['user'] = request.form["username"]
-            return redirect("/login")
+            return redirect("/")
         else:
-            return render_template("login.html",error="Wrong Password")
+            error = "Invalid credentials!"
+            return render_template("login.html",error=error)
       except:
-        flash("Data not found")
-        return redirect("/login")
+        error = "Unregistered user. Please Sign Up before logging in!"
+        return render_template("login.html", error=error)
 
 
 @app.route('/logout', methods=['POST', 'GET'])
@@ -66,7 +71,6 @@ def signup():
   if request.method == "GET":
     return render_template("signup.html")
   else:
-
     pswd_salt = os.environ['SALT']
     pswd = request.form["password"]
     digest = hashlib.sha512(str(pswd_salt+pswd+pswd_salt).encode('utf-8', 'strict'))
@@ -80,33 +84,56 @@ def signup():
             "city" : request.form["city"],
             "address" : request.form["address"] 
     }
+    #insert record 
     db["users"].insert(user)
     return redirect("/login")
 
 
+@app.route('/customer', methods=['POST', 'GET'])
+def customer():
+  if 'customer_logged_in' not in session:
+        return redirect("/")
+  return render_template('customer.html', username=session['user'])
+
+
 @app.route('/vendor', methods=['POST', 'GET'])
 def vendor():
+  if 'vendor_logged_in' not in session:
+        return redirect("/")
   return render_template('vendor.html')
 
 
 @app.route('/unsubscribers', methods=['POST', 'GET'])
 def unsubscribers():
+  if 'vendor_logged_in' not in session:
+        return redirect("/")
   return render_template('unsubscribers.html')
 
 
 @app.route('/complaints', methods=['POST', 'GET'])
 def complaints():
+  if 'vendor_logged_in' not in session:
+        return redirect("/")
   return render_template('view_complaints.html')
 
 
 @app.route('/info', methods=['POST', 'GET'])
 def info():
+  if 'vendor_logged_in' not in session:
+        return redirect("/")
   return render_template('delivery_person_details.html')
 
 
 @app.route('/add', methods=['POST', 'GET'])
 def add():
+  if 'vendor_logged_in' not in session:
+        return redirect("/")
   return render_template('add_delivery_person.html')
+
+
+# @app.route('/test', methods=['POST', 'GET'])
+# def test():
+#   return render_template("test.html")
 
 
 @app.errorhandler(404)
