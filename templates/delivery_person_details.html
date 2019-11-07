@@ -21,32 +21,29 @@
 
     <div class="page-content">
 
-      <div class="data-table">
+      <div class="card data-table">
         <table>
           <thead>
             <tr>
               <th class="label-cell">Name</th>
               <th class="numeric-cell">Phone No</th>
-              <th class="medium-only">Area</th>
-              <th class="medium-only">DOJ</th>
-              <th class="medium-only">Address</th>
+              <th class="label-cell">Area</th>
+              <th class="label-cell">DOJ</th>
+              <th class="label-cell">Address</th>
             </tr>
           </thead>
-
           <tbody>
             {% for item in data %}
             <tr>
-              <th class="label-cell">{{ item['name'] }}</th>
-              <th class="numeric-cell">{{ item['phone_no'] }}</th>
-              <th class="medium-only">{{ item['area'] }}</th>
-              <th class="medium-only">{{ item['doj'] }}</th>
-              <th class="medium-only">{{ item['address'] }}</th>
+              <td class="label-cell">{{ item['name'] }}</td>
+              <td class="numeric-cell">{{ item['phone_no'] }}</td>
+              <td class="label-cell">{{ item['area'] }}</td>
+              <td class="label-cell">{{ item['doj'] }}</td>
+              <td class="label-cell">{{ item['address'] }}</th>
             </tr>
             {% endfor %}
           </tbody>
-
         </table>
-      </div>
 
     </div>
 
