@@ -6,9 +6,7 @@ Developer : Shriharsha M [shriharsha05@computer.org]
 from flask import Flask, render_template, url_for, redirect, request, session
 from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient
-import hashlib
-import os
-import datetime
+import hashlib,os,datetime,json
 
 #flask config
 app = Flask(__name__)
@@ -160,12 +158,23 @@ def info():
   return render_template('delivery_person_details.html')
 
 
+def addWorker(worker):
+    db["workers"].insert(worker)
+
+
 @app.route('/add', methods=['POST', 'GET'])
 def add():
   if 'vendor_logged_in' not in session:
         return redirect("/")
-  return render_template('add_delivery_person.html')
-
+  if request.method == "GET":
+        return render_template('add_delivery_person.html')
+  else:
+        try:
+          addWorker(json.loads(request.form["worker"]))
+          return "1"
+        except:
+          return "2"
+        
 
 # @app.route('/test', methods=['POST', 'GET'])
 # def test():
