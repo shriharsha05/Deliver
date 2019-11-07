@@ -1,9 +1,9 @@
 var app = new Framework7({
   root: '#app',
   // App Name
-  name: 'PWA Template',
+  name: 'Deliver',
   // App id
-  id: 'pwa.template',
+  id: 'deliver.paper.app',
   // Enable swipe panel
   panel: {
     swipe: 'left',
