@@ -8,6 +8,7 @@ from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient
 import hashlib
 import os
+import datetime
 
 #flask config
 app = Flask(__name__)
@@ -93,8 +94,26 @@ def signup():
 def customer():
   if 'customer_logged_in' not in session:
         return redirect("/")
-  return render_template('customer.html', username=session['user'])
-
+  data = db["users"].find({"username": session['user']})
+  if request.method == "GET":
+        return render_template('customer.html', data=data[0])
+  else:
+        try:  
+              unsubscribe = {"username": data[0]['username'],
+              "from_date": request.form['from_date'],
+              "to_date": request.form['to_date'],
+              "news_paper": data[0]['news_paper'],
+              "area": data[0]['area'],
+              "phone_no": data[0]['phone_no'],
+              "resolved" : "0",
+              "req_date" :datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+              }
+              #insert unsubscription record
+              db["unsubscribe"].insert(unsubscribe)
+              #success
+              return "1"
+        except:
+              return "2"
 
 @app.route('/vendor', methods=['POST', 'GET'])
 def vendor():

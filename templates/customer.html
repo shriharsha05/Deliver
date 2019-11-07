@@ -10,7 +10,7 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div class="left"></div>
-        <div class="title">Hi {{ username }}!</div>
+        <div class="title">Hi {{ data['username'] }}!</div>
         <div class="right">
           <button class="col button color-orange padding-right" ><a href="/logout" class= "external">Logout</a></button>
         </div>
@@ -20,7 +20,7 @@
     <div class="page-content">
       
       <div class="card">
-        <div class="card-header justify-content-center">Unsubscribe TOI</div>
+        <div class="card-header justify-content-center">Unsubscribe {{ data['news_paper'] }}</div>
         <div class="card-content card-content-padding">
           <div class="list no-hairlines-md">
             <ul>
@@ -104,6 +104,8 @@
 {% block scripts %}
 <script type="text/javascript">
 
+var $$ = Dom7;
+
 var calendarModal1 = app.calendar.create({
 
     inputEl: '#from-date',
@@ -141,26 +143,37 @@ var calendarModal3 = app.calendar.create({
   });
 
 function Unsubscribe(){
+    if (!navigator.onLine) {
+    app.dialog.alert("Please check your internet connection!");
+    return;
+  }
 
-    
+  var from_date = document.getElementById("from-date").value;
+  var to_date = document.getElementById("to-date").value;
+
+    app.dialog.confirm("Are you sure, you want to unsubscribe "+"{{data['news_paper']}}"+" from "+from_date+" to "+to_date+"?", function () {
+      
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", "/customer", true);
+      xhttp.onreadystatechange = function () { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          if (this.responseText === "1") {
+            app.dialog.alert("Unsubscribed!");
+            window.location = "/customer";
+          } else {
+            app.dialog.alert("OOPS..Something Went Wrong");
+          }
+        }
+      }
+      xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhttp.send("from_date=" + from_date + "&to_date=" + to_date);
+    });
 }
 
 
 function Complain(){
 
 }
-
-var $$ = Dom7;
-
-// Create bottom toast
-var toastBottom = app.toast.create({
-  text: 'Success!',
-  closeTimeout: 3000,
-});
-
-$$('.open-toast-bottom').on('click', function () {
-  toastBottom.open();
-});
 
 </script>
 {% endblock %}
