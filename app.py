@@ -7,10 +7,12 @@ from flask import Flask, render_template, url_for, redirect, request, session
 from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient
 import hashlib,os,datetime,json
+from flask_compress import Compress
 
 #flask config
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET']
+Compress(app)
 
 #db config
 db_username = os.environ['DB_USER']
